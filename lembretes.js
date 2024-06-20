@@ -43,4 +43,12 @@ rl.question('Escolha uma opção: ', (opcao) => {
 	})
 }
 
-
+function adicionarLembrete() {
+	rl.question('Digite o nome do lembrete: ', (nome) => {
+		rl.question('Digite a data de término: ', (data) => {
+				funcionarios.push({ nome: nome, data: data})
+				console.log('lembrete adicionado com sucesso!')
+				exibirMenu()
+			})
+		})
+}
