@@ -47,11 +47,11 @@ rl.question('Escolha uma opção: ', (opcao) => {
 function adicionarLembrete() {
 	rl.question('Digite o lembrete: ', (nome) => {
 		rl.question('Digite a data de término: ', (data) => {
-			rl.question('Status:' , (concluido) => {
-				lembretes.push({ nome: nome, data: data, concluido: concluido})
+			
+				lembretes.push({ nome: nome, data: data, concluido: false})
 				console.log('\nLembrete adicionado com sucesso!')
 				exibirMenu()
-			})
+			
 		})
 			
 	})
@@ -61,7 +61,7 @@ function adicionarLembrete() {
 function editarLembrete(){
 	if (lembretes.length == 0){
 		console.log("\nNão há lembretes adicionados")
-	} else {
+	} else if (listarLembrete.length == []) {
 		console.log('Lista lembretes:')
 		lembretes.forEach((lembrete, index) => {
 			console.log(`${index + 1}. ${lembrete.nome}`)
@@ -70,23 +70,20 @@ function editarLembrete(){
 			if(numero > 0 && numero <= lembretes.length){
 				rl.question('Digite o novo lembrete: ', (nome) => {
 					rl.question('Digite o novo prazo: ', (data) => {
-						rl.question('Concluido ou Pendente: ', (concluido) => {
 							lembretes[numero - 1] = {
 								nome,
-								data,
-								concluido
+								data
 							}
 							console.log('\nEditado com sucesso!')
 							exibirMenu()
 						})
 					})
-				})
-			} else {
-				console.log('\nNúmero inválido, tente novamente.')
-				exibirMenu()
+				}  else {
+					console.log('\nNúmero inválido, tente novamente.')
+					exibirMenu()
 			}
-		})
-	}
+		}
+	)}
 }
 
 function listarLembrete() {
@@ -105,3 +102,23 @@ function listarLembrete() {
         exibirMenu()
     }
 }
+
+function marcarcomoConcluido() {
+	if (lembretes.length === 0) {
+		console.log('Nenhum lembrete adicionado!')
+		exibirMenu()
+	} else {
+		console.log('Lista de lembretes: ')
+		lembretes.forEach((lembrete, index) => {
+			console.log(`${index + 1}. Lembrete ${lembrete.nome}`)
+		})
+		rl.question('Qual lembrete voçê quer marcar como concluido?: ', (numero) => {
+			if (numero > 0 && numero <= lembretes.length) {
+				lembretes[numero-1].concluido = true
+			}
+			console.log("Sucesso")
+			exibirMenu()
+		}
+	)}
+}
+
