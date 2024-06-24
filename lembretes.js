@@ -33,10 +33,11 @@ rl.question('Escolha uma opção: ', (opcao) => {
 				marcarcomoConcluido()
 				break
 			case '5':
+				console.log('Até mais! :)')
 				rl.close()
 				break
 			default:
-				console.log('Opção inválida, tente novamente.')
+				console.log('\nOpção inválida, tente novamente.')
 				exibirMenu()
 				break
 		}
@@ -46,41 +47,61 @@ rl.question('Escolha uma opção: ', (opcao) => {
 function adicionarLembrete() {
 	rl.question('Digite o lembrete: ', (nome) => {
 		rl.question('Digite a data de término: ', (data) => {
-				lembretes.push({ nome: nome, data: data})
-				console.log('lembrete adicionado com sucesso!')
+			rl.question('Status:' , (concluido) => {
+				lembretes.push({ nome: nome, data: data, concluido: concluido})
+				console.log('\nLembrete adicionado com sucesso!')
 				exibirMenu()
 			})
 		})
+			
+	})
 }
 
 
 function editarLembrete(){
 	if (lembretes.length == 0){
-		console.log("Não há lembretes adicionados")
+		console.log("\nNão há lembretes adicionados")
 	} else {
 		console.log('Lista lembretes:')
 		lembretes.forEach((lembrete, index) => {
-			console.log(`${index + 1}, ${lembrete.nome}`)
+			console.log(`${index + 1}. ${lembrete.nome}`)
 		})
-		rl.question('Digite o número do lembrete que deseja editar:', (numero) =>{
+		rl.question('Digite o número do lembrete que deseja editar: ', (numero) =>{
 			if(numero > 0 && numero <= lembretes.length){
-				rl.question('Digite o novo lembrete:', (nome) => {
-					rl.question('Digite o novo prazo:', (data) => {
-						rl.question('Concluido:', (concluido) => {
+				rl.question('Digite o novo lembrete: ', (nome) => {
+					rl.question('Digite o novo prazo: ', (data) => {
+						rl.question('Concluido ou Pendente: ', (concluido) => {
 							lembretes[numero - 1] = {
 								nome,
 								data,
 								concluido
 							}
-							console.log('Editado com sucesso!')
+							console.log('\nEditado com sucesso!')
 							exibirMenu()
 						})
 					})
 				})
 			} else {
-				console.log('Número inválido, tente novamente.')
+				console.log('\nNúmero inválido, tente novamente.')
 				exibirMenu()
 			}
 		})
 	}
+}
+
+function listarLembrete() {
+	if (lembretes.length === 0) {
+		console.log('\nNenhum lembrete adicionado ainda!')
+		exibirMenu()
+	} else {
+		console.log('\nLista de lembretes adicionados:')
+		lembretes.forEach((lembrete, index) => {
+            console.log(`
+            ${index + 1}. Lembrete: ${lembrete.nome}
+            Prazo do lembrete: ${lembrete.data}
+            Status: ${lembrete.concluido}
+            `)
+        })
+        exibirMenu()
+    }
 }
